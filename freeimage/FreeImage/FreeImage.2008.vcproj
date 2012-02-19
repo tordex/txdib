@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="FreeImageLib"
+	Name="FreeImage"
 	ProjectGUID="{9E219DF2-315D-478E-8A07-8960C377CE1E}"
 	RootNamespace="FreeImageLib"
 	TargetFrameworkVersion="131072"
@@ -75,7 +75,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
-				OutputFile="..\..\..\..\lib\Debug\Win32\FreeImage.lib"
+				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -152,7 +152,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
-				OutputFile="..\..\..\..\lib\Debug\x64\FreeImage.lib"
+				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -231,7 +231,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
-				OutputFile="..\..\..\..\lib\Release\Win32\FreeImage.lib"
+				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -311,7 +311,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
-				OutputFile="..\..\..\..\lib\Release\x64\FreeImage.lib"
+				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool

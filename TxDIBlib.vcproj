@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="TxDIBlib"
+	Name="TxDIB"
 	ProjectGUID="{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}"
 	RootNamespace="TxDIBlib"
 	Keyword="Win32Proj"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\Debug\Win32\txdib.lib"
+				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -128,7 +128,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\Debug\x64\txdib.lib"
+				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -194,7 +194,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\Release\Win32\txdib.lib"
+				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -261,7 +261,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\Release\x64\txdib.lib"
+				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
