@@ -2,8 +2,8 @@
 #include "TxDIB.h"
 #include <emmintrin.h>
 #include <mmintrin.h>
-#define FREEIMAGE_LIB
-#include "FreeImage/freeimage.h"
+#include "..\freeimage\FreeImage.h"
+
 
 CTxDIB::CTxDIB(void)
 {
@@ -130,16 +130,6 @@ BOOL CTxDIB::draw( HDC hdc, int x, int y, int cx /*= -1*/, long cy /*= -1*/ )
 	DeleteDC(memDC);
 
 	return TRUE;
-}
-
-void CTxDIB::Initialise()
-{
-	FreeImage_Initialise(TRUE);
-}
-
-void CTxDIB::DeInitialise()
-{
-	FreeImage_DeInitialise();
 }
 
 void CTxDIB::setTransColor( COLORREF clr )
@@ -450,13 +440,10 @@ BOOL CTxDIB::createFromHBITMAP( HBITMAP bmp )
 		BITMAP bm;
 		GetObject(bmp, sizeof(BITMAP), (LPSTR) &bm);
 		dib = FreeImage_Allocate(bm.bmWidth, bm.bmHeight, bm.bmBitsPixel);
-		// The GetDIBits function clears the biClrUsed and biClrImportant BITMAPINFO members (dont't know why) 
-		// So we save these infos below. This is needed for palettized images only. 
 		int nColors = FreeImage_GetColorsUsed(dib);
 		HDC dc = GetDC(NULL);
 		int res = GetDIBits(dc, bmp, 0, FreeImage_GetHeight(dib), FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS);
 		ReleaseDC(NULL, dc);
-		// restore BITMAPINFO members
 		FreeImage_GetInfoHeader(dib)->biClrUsed = nColors;
 		FreeImage_GetInfoHeader(dib)->biClrImportant = nColors;
 		attach(dib);
@@ -985,6 +972,95 @@ BOOL CTxDIB::calcAlpha( CTxDIB* imgWhite, CTxDIB* imgBlack )
 	}
 
 	return TRUE;
+}
+
+#define RBLOCK 96
+
+void CTxDIB::rotateLeft( CTxDIB* dst /*= NULL*/ )
+{
+	if(!isValid()) return;
+
+	int width	= getHeight();
+	int height	= getWidth();
+
+	size_t		sz			= width * height * sizeof(RGBQUAD);
+	LPRGBQUAD	newBbits	= (LPRGBQUAD) malloc(sz);
+
+	int xs, ys;                                   //x-segment and y-segment
+	long x, x2, y;
+	LPRGBQUAD srcPtr;
+	LPRGBQUAD dstPtr;
+	for (xs = 0; xs < width; xs += RBLOCK) 
+	{       //for all image blocks of RBLOCK*RBLOCK pixels
+		for (ys = 0; ys < height; ys += RBLOCK) 
+		{
+			//RGB24 optimized pixel access:
+			for (x = xs; x < min(width, xs + RBLOCK); x++)
+			{    //do rotation
+				x2 = width - x - 1;
+				dstPtr = newBbits + ys * width + x;
+				srcPtr = m_bits + x2 * m_width + ys;
+				for (y = ys; y < min(height, ys + RBLOCK); y++)
+				{
+					*dstPtr = *srcPtr;
+					srcPtr++;
+					dstPtr+= width;
+				}//for y
+			}//for x
+		}//for ys
+	}//for xs
+
+	if(dst)
+	{
+		dst->_copy(newBbits, width, height, FALSE);
+	} else
+	{
+		_copy(newBbits, width, height, FALSE);
+	}
+}
+
+void CTxDIB::rotateRight( CTxDIB* dst /*= NULL*/ )
+{
+	if(!isValid()) return;
+
+	int width	= getHeight();
+	int height	= getWidth();
+
+	size_t		sz			= width * height * sizeof(RGBQUAD);
+	LPRGBQUAD	newBbits	= (LPRGBQUAD) malloc(sz);
+
+	int xs, ys;                                   //x-segment and y-segment
+	long x, y2, y;
+	LPRGBQUAD srcPtr;
+	LPRGBQUAD dstPtr;
+
+	for (xs = 0; xs < width; xs += RBLOCK) 
+	{       //for all image blocks of RBLOCK*RBLOCK pixels
+		for (ys = 0; ys < height; ys += RBLOCK) 
+		{
+			//RGB24 optimized pixel access:
+			for (y = ys; y < min(height, ys + RBLOCK); y++)
+			{    //do rotation
+				y2 = height - y - 1;
+				dstPtr = newBbits + y * width + xs;
+				srcPtr = m_bits + xs * m_width + y2;
+				for (x = xs; x < min(width, xs + RBLOCK); x++)
+				{
+					*dstPtr = *srcPtr;
+					dstPtr++;
+					srcPtr += m_width;
+				}//for y
+			}//for x
+		}//for ys
+	}//for xs
+
+	if(dst)
+	{
+		dst->_copy(newBbits, width, height, FALSE);
+	} else
+	{
+		_copy(newBbits, width, height, FALSE);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -43,10 +43,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				Optimization="0"
 				WholeProgramOptimization="false"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				MinimalRebuild="true"
+				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
@@ -64,7 +65,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="freeimage.lib"
 				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
+				AdditionalLibraryDirectories="..\freeimage\32"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -107,10 +110,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				Optimization="0"
 				WholeProgramOptimization="false"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				MinimalRebuild="true"
+				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
@@ -128,7 +132,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="freeimage.lib"
 				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
+				AdditionalLibraryDirectories="..\freeimage\64"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -171,10 +177,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				WholeProgramOptimization="false"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				MinimalRebuild="false"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableFunctionLevelLinking="true"
@@ -194,7 +202,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="freeimage.lib"
 				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
+				AdditionalLibraryDirectories="..\freeimage\32"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -238,10 +248,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				WholeProgramOptimization="false"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				MinimalRebuild="false"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableFunctionLevelLinking="true"
@@ -261,7 +273,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="freeimage.lib"
 				OutputFile="$(SolutionDir)lib\$(ConfigurationName)\$(PlatformName)\$(ProjectName).lib"
+				AdditionalLibraryDirectories="..\freeimage\64"
 			/>
 			<Tool
 				Name="VCALinkTool"

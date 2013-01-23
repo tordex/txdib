@@ -52,10 +52,8 @@ public:
 	BOOL	calcAlpha(CTxDIB* imgWhite, CTxDIB* imgBlack);
 	LPRGBQUAD	getBits() { return m_bits; }
 	void	PreMulRGBA(RGBQUAD& color);
-
-	static  void Initialise();
-	static  void DeInitialise();
-
+	void	rotateLeft(CTxDIB* dst = NULL);
+	void	rotateRight(CTxDIB* dst = NULL);
 private:
 	void	OverflowCoordinates(float &x, float &y);
 	RGBQUAD GetPixelColorWithOverflow(long x, long y);
