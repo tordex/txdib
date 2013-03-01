@@ -48,6 +48,7 @@ public:
 	void	crop(LPCRECT rcCrop, CTxDIB* dst = NULL);
 	BOOL	isValid();
 	void	setMaxAlpha(BYTE alpha);
+	BYTE	getMaxAlpha();
 	void	colorize(COLORREF clr);
 	BOOL	calcAlpha(CTxDIB* imgWhite, CTxDIB* imgBlack);
 	LPRGBQUAD	getBits() { return m_bits; }
@@ -215,6 +216,11 @@ inline BOOL CTxDIB::isValid()
 inline void CTxDIB::setMaxAlpha(BYTE alpha)
 { 
 	m_maxAlpha = alpha; 
+}
+
+inline BYTE CTxDIB::getMaxAlpha()
+{ 
+	return m_maxAlpha;
 }
 
 inline BOOL CTxDIB::draw(HDC hdc, LPCRECT rcDraw)
