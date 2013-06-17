@@ -55,6 +55,7 @@ public:
 	void	PreMulRGBA(RGBQUAD& color);
 	void	rotateLeft(CTxDIB* dst = NULL);
 	void	rotateRight(CTxDIB* dst = NULL);
+	void	_copy( LPRGBQUAD newBits, int newWidth, int newHeight, BOOL copyBits = FALSE );
 private:
 	void	OverflowCoordinates(float &x, float &y);
 	RGBQUAD GetPixelColorWithOverflow(long x, long y);
@@ -66,7 +67,6 @@ private:
 
 	void	PreMultiplyWithAlpha();
 	void	_copy( CTxDIB& val );
-	void	_copy( LPRGBQUAD newBits, int newWidth, int newHeight, BOOL copyBits = FALSE );
 	BOOL	attach( LPVOID dib );
 };
 
