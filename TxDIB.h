@@ -56,6 +56,8 @@ public:
 	void	rotateLeft(CTxDIB* dst = NULL);
 	void	rotateRight(CTxDIB* dst = NULL);
 	void	_copy( LPRGBQUAD newBits, int newWidth, int newHeight, BOOL copyBits = FALSE );
+	BOOL	attach( LPVOID dib );
+	void	PreMultiplyWithAlpha();
 private:
 	void	OverflowCoordinates(float &x, float &y);
 	RGBQUAD GetPixelColorWithOverflow(long x, long y);
@@ -65,9 +67,7 @@ private:
 	void	resample2( int newWidth, int newHeight, CTxDIB* dst = NULL );
 	bool	QIShrink( int newWidth, int newHeight, CTxDIB* dst = NULL );
 
-	void	PreMultiplyWithAlpha();
 	void	_copy( CTxDIB& val );
-	BOOL	attach( LPVOID dib );
 };
 
 class CTxDibSet
