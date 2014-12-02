@@ -693,86 +693,88 @@ void CTxDIB::resample2( int newWidth, int newHeight, CTxDIB* dst /*= NULL */ )
 		fixed f_dy = ftofx(dy);
 		fixed f_1 = itofx(1);
 
-		LPRGBQUAD lpData = (LPRGBQUAD) malloc(newWidth * newHeight * sizeof(RGBQUAD));
-
-		// Scale bitmap
-		DWORD dwDstHorizontalOffset;
-		DWORD dwDstVerticalOffset = 0;
-		DWORD dwDstTotalOffset;
-		LPRGBQUAD lpSrcData = m_bits;
-		DWORD dwSrcTotalOffset;
-		LPRGBQUAD lpDstData = lpData;
-		for (long i = 0; i < _height; i++)
+		LPRGBQUAD lpData = (LPRGBQUAD) malloc(_width * _height * sizeof(RGBQUAD));
+		if(lpData)
 		{
-			dwDstHorizontalOffset = 0;
-			for (long j = 0; j < _width; j++)
+			// Scale bitmap
+			DWORD dwDstHorizontalOffset;
+			DWORD dwDstVerticalOffset = 0;
+			DWORD dwDstTotalOffset;
+			LPRGBQUAD lpSrcData = m_bits;
+			DWORD dwSrcTotalOffset;
+			LPRGBQUAD lpDstData = lpData;
+			for (long i = 0; i < _height; i++)
 			{
-				// Update destination total offset
-				dwDstTotalOffset = dwDstVerticalOffset + dwDstHorizontalOffset;
+				dwDstHorizontalOffset = 0;
+				for (long j = 0; j < _width; j++)
+				{
+					// Update destination total offset
+					dwDstTotalOffset = dwDstVerticalOffset + dwDstHorizontalOffset;
 
-				// Update bitmap
-				fixed f_i = itofx(i);
-				fixed f_j = itofx(j);
-				fixed f_a = Mulfx(f_i, f_dy);
-				fixed f_b = Mulfx(f_j, f_dx);
-				long m = fxtoi(f_a);
-				long n = fxtoi(f_b);
-				fixed f_f = f_a - itofx(m);
-				fixed f_g = f_b - itofx(n);
-				dwSrcTotalOffset = m * m_width + n;
-				DWORD dwSrcTopLeft = dwSrcTotalOffset;
-				DWORD dwSrcTopRight = dwSrcTotalOffset + 1;
-				if (n >= m_width-1)
-					dwSrcTopRight = dwSrcTotalOffset;
-				DWORD dwSrcBottomLeft = dwSrcTotalOffset + m_width;
-				if (m >= m_height-1)
-					dwSrcBottomLeft = dwSrcTotalOffset;
-				DWORD dwSrcBottomRight = dwSrcTotalOffset + m_width + 1;
-				if ((n >= m_width-1) || (m >= m_height-1))
-					dwSrcBottomRight = dwSrcTotalOffset;
-				fixed f_w1 = Mulfx(f_1-f_f, f_1-f_g);
-				fixed f_w2 = Mulfx(f_1-f_f, f_g);
-				fixed f_w3 = Mulfx(f_f, f_1-f_g);
-				fixed f_w4 = Mulfx(f_f, f_g);
-				RGBQUAD pixel1 = lpSrcData[dwSrcTopLeft];
-				RGBQUAD pixel2 = lpSrcData[dwSrcTopRight];
-				RGBQUAD pixel3 = lpSrcData[dwSrcBottomLeft];
-				RGBQUAD pixel4 = lpSrcData[dwSrcBottomRight];
-				fixed f_r1 = itofx(pixel1.rgbRed);
-				fixed f_r2 = itofx(pixel2.rgbRed);
-				fixed f_r3 = itofx(pixel3.rgbRed);
-				fixed f_r4 = itofx(pixel4.rgbRed);
-				fixed f_g1 = itofx(pixel1.rgbGreen);
-				fixed f_g2 = itofx(pixel2.rgbGreen);
-				fixed f_g3 = itofx(pixel3.rgbGreen);
-				fixed f_g4 = itofx(pixel4.rgbGreen);
-				fixed f_b1 = itofx(pixel1.rgbBlue);
-				fixed f_b2 = itofx(pixel2.rgbBlue);
-				fixed f_b3 = itofx(pixel3.rgbBlue);
-				fixed f_b4 = itofx(pixel4.rgbBlue);
-				fixed f_a1 = itofx(pixel1.rgbReserved);
-				fixed f_a2 = itofx(pixel2.rgbReserved);
-				fixed f_a3 = itofx(pixel3.rgbReserved);
-				fixed f_a4 = itofx(pixel4.rgbReserved);
-				lpDstData[dwDstTotalOffset].rgbRed	= (BYTE)fxtoi(Mulfx(f_w1, f_r1) + Mulfx(f_w2, f_r2) + Mulfx(f_w3, f_r3) + Mulfx(f_w4, f_r4));
-				lpDstData[dwDstTotalOffset].rgbGreen = (BYTE)fxtoi(Mulfx(f_w1, f_g1) + Mulfx(f_w2, f_g2) + Mulfx(f_w3, f_g3) + Mulfx(f_w4, f_g4));
-				lpDstData[dwDstTotalOffset].rgbBlue	= (BYTE)fxtoi(Mulfx(f_w1, f_b1) + Mulfx(f_w2, f_b2) + Mulfx(f_w3, f_b3) + Mulfx(f_w4, f_b4));
-				lpDstData[dwDstTotalOffset].rgbReserved = (BYTE)fxtoi(Mulfx(f_w1, f_a1) + Mulfx(f_w2, f_a2) + Mulfx(f_w3, f_a3) + Mulfx(f_w4, f_a4));
+					// Update bitmap
+					fixed f_i = itofx(i);
+					fixed f_j = itofx(j);
+					fixed f_a = Mulfx(f_i, f_dy);
+					fixed f_b = Mulfx(f_j, f_dx);
+					long m = fxtoi(f_a);
+					long n = fxtoi(f_b);
+					fixed f_f = f_a - itofx(m);
+					fixed f_g = f_b - itofx(n);
+					dwSrcTotalOffset = m * m_width + n;
+					DWORD dwSrcTopLeft = dwSrcTotalOffset;
+					DWORD dwSrcTopRight = dwSrcTotalOffset + 1;
+					if (n >= m_width-1)
+						dwSrcTopRight = dwSrcTotalOffset;
+					DWORD dwSrcBottomLeft = dwSrcTotalOffset + m_width;
+					if (m >= m_height-1)
+						dwSrcBottomLeft = dwSrcTotalOffset;
+					DWORD dwSrcBottomRight = dwSrcTotalOffset + m_width + 1;
+					if ((n >= m_width-1) || (m >= m_height-1))
+						dwSrcBottomRight = dwSrcTotalOffset;
+					fixed f_w1 = Mulfx(f_1-f_f, f_1-f_g);
+					fixed f_w2 = Mulfx(f_1-f_f, f_g);
+					fixed f_w3 = Mulfx(f_f, f_1-f_g);
+					fixed f_w4 = Mulfx(f_f, f_g);
+					RGBQUAD pixel1 = lpSrcData[dwSrcTopLeft];
+					RGBQUAD pixel2 = lpSrcData[dwSrcTopRight];
+					RGBQUAD pixel3 = lpSrcData[dwSrcBottomLeft];
+					RGBQUAD pixel4 = lpSrcData[dwSrcBottomRight];
+					fixed f_r1 = itofx(pixel1.rgbRed);
+					fixed f_r2 = itofx(pixel2.rgbRed);
+					fixed f_r3 = itofx(pixel3.rgbRed);
+					fixed f_r4 = itofx(pixel4.rgbRed);
+					fixed f_g1 = itofx(pixel1.rgbGreen);
+					fixed f_g2 = itofx(pixel2.rgbGreen);
+					fixed f_g3 = itofx(pixel3.rgbGreen);
+					fixed f_g4 = itofx(pixel4.rgbGreen);
+					fixed f_b1 = itofx(pixel1.rgbBlue);
+					fixed f_b2 = itofx(pixel2.rgbBlue);
+					fixed f_b3 = itofx(pixel3.rgbBlue);
+					fixed f_b4 = itofx(pixel4.rgbBlue);
+					fixed f_a1 = itofx(pixel1.rgbReserved);
+					fixed f_a2 = itofx(pixel2.rgbReserved);
+					fixed f_a3 = itofx(pixel3.rgbReserved);
+					fixed f_a4 = itofx(pixel4.rgbReserved);
+					lpDstData[dwDstTotalOffset].rgbRed	= (BYTE)fxtoi(Mulfx(f_w1, f_r1) + Mulfx(f_w2, f_r2) + Mulfx(f_w3, f_r3) + Mulfx(f_w4, f_r4));
+					lpDstData[dwDstTotalOffset].rgbGreen = (BYTE)fxtoi(Mulfx(f_w1, f_g1) + Mulfx(f_w2, f_g2) + Mulfx(f_w3, f_g3) + Mulfx(f_w4, f_g4));
+					lpDstData[dwDstTotalOffset].rgbBlue	= (BYTE)fxtoi(Mulfx(f_w1, f_b1) + Mulfx(f_w2, f_b2) + Mulfx(f_w3, f_b3) + Mulfx(f_w4, f_b4));
+					lpDstData[dwDstTotalOffset].rgbReserved = (BYTE)fxtoi(Mulfx(f_w1, f_a1) + Mulfx(f_w2, f_a2) + Mulfx(f_w3, f_a3) + Mulfx(f_w4, f_a4));
 
-				// Update destination horizontal offset
-				dwDstHorizontalOffset ++;
+					// Update destination horizontal offset
+					dwDstHorizontalOffset ++;
+				}
+
+				dwDstVerticalOffset += _width;
 			}
 
-			dwDstVerticalOffset += _width;
-		}
-
-		if(dst)
-		{
-			dst->_copy(lpData, newWidth, newHeight);
-			dst->m_maxAlpha = m_maxAlpha;
-		} else
-		{
-			_copy(lpData, newWidth, newHeight);
+			if(dst)
+			{
+				dst->_copy(lpData, newWidth, newHeight);
+				dst->m_maxAlpha = m_maxAlpha;
+			} else
+			{
+				_copy(lpData, newWidth, newHeight);
+			}
 		}
 	}
 }
