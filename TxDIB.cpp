@@ -424,7 +424,11 @@ HBITMAP CTxDIB::createBitmap( HDC hdc )
 		0, 
 		0 
 		); 
-	memcpy(buf, m_bits, m_width * m_height * sizeof(RGBQUAD));
+
+	if (buf)
+	{
+		memcpy(buf, m_bits, m_width * m_height * sizeof(RGBQUAD));
+	}
 	if(!hdc)
 	{
 		ReleaseDC(NULL, dc);
@@ -440,15 +444,18 @@ BOOL CTxDIB::createFromHBITMAP( HBITMAP bmp )
 		BITMAP bm;
 		GetObject(bmp, sizeof(BITMAP), (LPSTR) &bm);
 		dib = FreeImage_Allocate(bm.bmWidth, bm.bmHeight, bm.bmBitsPixel);
-		int nColors = FreeImage_GetColorsUsed(dib);
-		HDC dc = GetDC(NULL);
-		int res = GetDIBits(dc, bmp, 0, FreeImage_GetHeight(dib), FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS);
-		ReleaseDC(NULL, dc);
-		FreeImage_GetInfoHeader(dib)->biClrUsed = nColors;
-		FreeImage_GetInfoHeader(dib)->biClrImportant = nColors;
-		attach(dib);
-		FreeImage_Unload(dib);
-		return TRUE;
+		if (dib)
+		{
+			int nColors = FreeImage_GetColorsUsed(dib);
+			HDC dc = GetDC(NULL);
+			int res = GetDIBits(dc, bmp, 0, FreeImage_GetHeight(dib), FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS);
+			ReleaseDC(NULL, dc);
+			FreeImage_GetInfoHeader(dib)->biClrUsed = nColors;
+			FreeImage_GetInfoHeader(dib)->biClrImportant = nColors;
+			attach(dib);
+			FreeImage_Unload(dib);
+			return TRUE;
+		}
 	}
 	return FALSE;
 }
