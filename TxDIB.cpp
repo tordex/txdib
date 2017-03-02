@@ -13,7 +13,7 @@ CTxDIB::CTxDIB(void)
 	m_height	= 0;
 }
 
-CTxDIB::CTxDIB( CTxDIB& val )
+CTxDIB::CTxDIB(const CTxDIB& val)
 {
 	m_bits		= NULL;
 	m_width		= 0;
@@ -267,7 +267,7 @@ void CTxDIB::PreMultiplyWithAlpha()
 	}
 }
 
-void CTxDIB::_copy( CTxDIB& val )
+void CTxDIB::_copy(const CTxDIB& val)
 {
 	_copy(val.m_bits, val.m_width, val.m_height, TRUE);
 	m_maxAlpha = val.m_maxAlpha;

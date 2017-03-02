@@ -20,10 +20,10 @@ class CTxDIB
 public:
 	CTxDIB(void);
 	CTxDIB(LPCWSTR fileName);
-	CTxDIB(CTxDIB& val);
+	CTxDIB(const CTxDIB& val);
 	virtual ~CTxDIB(void);
 
-	void operator=(CTxDIB& val);
+	void operator=(const CTxDIB& val);
 
 	BOOL	load(LPCWSTR fileName);
 	BOOL	load(HRSRC hRes, HMODULE hModule = NULL);
@@ -67,7 +67,7 @@ private:
 	void	resample2( int newWidth, int newHeight, CTxDIB* dst = NULL );
 	bool	QIShrink( int newWidth, int newHeight, CTxDIB* dst = NULL );
 
-	void	_copy( CTxDIB& val );
+	void	_copy( const CTxDIB& val );
 };
 
 class CTxDibSet
@@ -228,7 +228,7 @@ inline BOOL CTxDIB::draw(HDC hdc, LPCRECT rcDraw)
 	return draw(hdc, rcDraw->left, rcDraw->top, rcDraw->right - rcDraw->left, rcDraw->bottom - rcDraw->top); 
 }
 
-inline void CTxDIB::operator=(CTxDIB& val) 
+inline void CTxDIB::operator=(const CTxDIB& val) 
 { 
 	_copy(val); 
 }
