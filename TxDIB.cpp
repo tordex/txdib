@@ -497,7 +497,7 @@ BOOL CTxDIB::attach( LPVOID pdib )
 	return FALSE;
 }
 
-BOOL CTxDIB::createFromHICON( HICON ico )
+BOOL CTxDIB::createFromHICON(HICON ico, BOOL fixAlpha)
 {
 	destroy();
 	BOOL ret = FALSE;
@@ -521,7 +521,8 @@ BOOL CTxDIB::createFromHICON( HICON ico )
 							m_bits[i].rgbRed		= 0;
 							m_bits[i].rgbGreen		= 0;
 							m_bits[i].rgbBlue		= 0;
-						} else if(!m_bits[i].rgbReserved)
+						}
+						else if (!m_bits[i].rgbReserved && fixAlpha)
 						{
 							m_bits[i].rgbReserved = 255;
 						}
@@ -881,16 +882,18 @@ bool CTxDIB::QIShrink( int newWidth, int newHeight, CTxDIB* dst /*= NULL */ )
 	return true;
 }
 
-BOOL CTxDIB::savePNG( LPCWSTR fileName )
+BOOL CTxDIB::savePNG(LPCWSTR fileName, int dpi)
 {
 	FIBITMAP* dib = FreeImage_Allocate(m_width, m_height, 32);
 	memcpy(FreeImage_GetBits(dib), m_bits, m_width * m_height * 4);
+	FreeImage_SetDotsPerMeterX(dib, (unsigned int)((double)dpi / 0.0254));
+	FreeImage_SetDotsPerMeterY(dib, (unsigned int)((double)dpi / 0.0254));
 	BOOL ret = FreeImage_SaveU(FIF_PNG, dib, fileName);
 	FreeImage_Unload(dib);
 	return ret;
 }
 
-BOOL CTxDIB::saveJPG( LPCWSTR fileName, int quality /*= JPEG_QUALITY_GOOD*/ )
+BOOL CTxDIB::saveJPG(LPCWSTR fileName, int quality, int dpi)
 {
 	FIBITMAP* dib = FreeImage_Allocate(m_width, m_height, 32);
 	memcpy(FreeImage_GetBits(dib), m_bits, m_width * m_height * 4);
@@ -916,6 +919,8 @@ BOOL CTxDIB::saveJPG( LPCWSTR fileName, int quality /*= JPEG_QUALITY_GOOD*/ )
 		break;
 	}
 
+	FreeImage_SetDotsPerMeterX(dib24, (unsigned int) ((double) dpi / 0.0254));
+	FreeImage_SetDotsPerMeterY(dib24, (unsigned int) ((double) dpi / 0.0254));
 	BOOL ret = FreeImage_SaveU(FIF_JPEG, dib24, fileName, flags);
 	FreeImage_Unload(dib);
 	FreeImage_Unload(dib24);

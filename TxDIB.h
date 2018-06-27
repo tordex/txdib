@@ -28,15 +28,15 @@ public:
 	BOOL	load(LPCWSTR fileName);
 	BOOL	load(HRSRC hRes, HMODULE hModule = NULL);
 	BOOL	load(LPBYTE data, DWORD size);
-	BOOL	savePNG(LPCWSTR fileName);
-	BOOL	saveJPG(LPCWSTR fileName, int quality = JPEG_QUALITY_GOOD);
+	BOOL	savePNG(LPCWSTR fileName, int dpi = 96);
+	BOOL	saveJPG(LPCWSTR fileName, int quality = JPEG_QUALITY_GOOD, int dpi = 96);
 	BOOL	saveBMP(LPCWSTR fileName);
 
 	BOOL	destroy();
 	BOOL	draw(HDC hdc, int x, int y, int cx = -1, long cy = -1);
 	BOOL	draw(HDC hdc, LPCRECT rcDraw);
 	BOOL	createFromHBITMAP(HBITMAP bmp);
-	BOOL	createFromHICON(HICON ico);
+	BOOL	createFromHICON(HICON ico, BOOL fixAlpha); /* default fixAlpha=TRUE, for shell icons set is to FALSE */
 
 	HBITMAP createBitmap( HDC hdc = NULL );
 	void	setTransColor(COLORREF clr);
