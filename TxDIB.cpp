@@ -2,8 +2,7 @@
 #include "TxDIB.h"
 #include <emmintrin.h>
 #include <mmintrin.h>
-#include "..\freeimage\FreeImage.h"
-
+#include "FreeImage.h"
 
 CTxDIB::CTxDIB(void)
 {

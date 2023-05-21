@@ -5,8 +5,10 @@
 *.suo
 *.user
 *.sln.docstates
+.vs
 
 # Build results
+cmake-build-*/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
