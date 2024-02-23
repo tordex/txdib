@@ -280,10 +280,10 @@ void CTxDIB::crop( int left, int top, int right, int bottom, CTxDIB* dst /*= NUL
 		return;
 	}
 
-	left	= max(0, min(left,		m_width));
-	top		= max(0, min(top,		m_height));
-	right	= max(0, min(right,		m_width));
-	bottom	= max(0, min(bottom,	m_height));
+	left	= std::max(0, std::min(left,		m_width));
+	top		= std::max(0, std::min(top,		m_height));
+	right	= std::max(0, std::min(right,		m_width));
+	bottom	= std::max(0, std::min(bottom,	m_height));
 
 	int newWidth	= right - left;
 	int newHeight	= bottom - top;
@@ -693,8 +693,8 @@ void CTxDIB::resample2( int newWidth, int newHeight, CTxDIB* dst /*= NULL */ )
 	if (isValid())
 	{
 		// Calculate scaling params
-		long _width		= max(1, newWidth);
-		long _height	= max(1, newHeight);
+		long _width		= std::max(1, newWidth);
+		long _height	= std::max(1, newHeight);
 		float dx = (float)m_width  / (float)_width;
 		float dy = (float)m_height / (float)_height;
 		fixed f_dx = ftofx(dx);
@@ -1009,12 +1009,12 @@ void CTxDIB::rotateLeft( CTxDIB* dst /*= NULL*/ )
 		for (ys = 0; ys < height; ys += RBLOCK) 
 		{
 			//RGB24 optimized pixel access:
-			for (x = xs; x < min(width, xs + RBLOCK); x++)
+			for (x = xs; x < std::min(width, xs + RBLOCK); x++)
 			{    //do rotation
 				x2 = width - x - 1;
 				dstPtr = newBbits + ys * width + x;
 				srcPtr = m_bits + x2 * m_width + ys;
-				for (y = ys; y < min(height, ys + RBLOCK); y++)
+				for (y = ys; y < std::min(height, ys + RBLOCK); y++)
 				{
 					*dstPtr = *srcPtr;
 					srcPtr++;
@@ -1053,12 +1053,12 @@ void CTxDIB::rotateRight( CTxDIB* dst /*= NULL*/ )
 		for (ys = 0; ys < height; ys += RBLOCK) 
 		{
 			//RGB24 optimized pixel access:
-			for (y = ys; y < min(height, ys + RBLOCK); y++)
+			for (y = ys; y < std::min(height, ys + RBLOCK); y++)
 			{    //do rotation
 				y2 = height - y - 1;
 				dstPtr = newBbits + y * width + xs;
 				srcPtr = m_bits + xs * m_width + y2;
-				for (x = xs; x < min(width, xs + RBLOCK); x++)
+				for (x = xs; x < std::min(width, xs + RBLOCK); x++)
 				{
 					*dstPtr = *srcPtr;
 					dstPtr++;

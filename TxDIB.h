@@ -4,6 +4,7 @@
 #include <math.h>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #define JPEG_QUALITY_SUPER		0
 #define JPEG_QUALITY_GOOD		1
@@ -156,10 +157,10 @@ inline RGBQUAD CTxDIB::GetPixelColorWithOverflow(long x, long y)
 {
 	if (!(0 <= y && y < m_height && 0 <= x &&  x < m_width))
 	{
-		x = max(x, 0); 
-		x = min(x, m_width - 1);
-		y = max(y, 0); 
-		y = min(y, m_height - 1);
+		x = std::max((int) x, 0); 
+		x = std::min((int) x, m_width - 1);
+		y = std::max((int) y, 0);
+		y = std::min((int) y, m_height - 1);
 	}
 	return m_bits[y * m_width + x];
 }
@@ -170,10 +171,10 @@ inline void CTxDIB::OverflowCoordinates( float &x, float &y )
 	{
 		return;
 	}
-	x = max(x, 0); 
-	x = min(x, m_width - 1);
-	y = max(y, 0); 
-	y = min(y, m_height - 1);
+	x = std::max(x, 0.0f);
+	x = std::min(x, (float) m_width - 1);
+	y = std::max(y, 0.0f);
+	y = std::min(y, (float) m_height - 1);
 }
 
 inline void	CTxDIB::AddAveragingCont(RGBQUAD const &color, float const surf, float &rr, float &gg, float &bb, float &aa)
@@ -290,10 +291,10 @@ inline float CTxDibRect2::Surface() const
 inline CTxDibRect2 CTxDibRect2::CrossSection(CTxDibRect2 const &r2)
 {
   CTxDibRect2 cs;
-  cs.botLeft.x=max(botLeft.x, r2.botLeft.x);
-  cs.botLeft.y=max(botLeft.y, r2.botLeft.y);
-  cs.topRight.x=min(topRight.x, r2.topRight.x);
-  cs.topRight.y=min(topRight.y, r2.topRight.y);
+  cs.botLeft.x =std::max(botLeft.x, r2.botLeft.x);
+  cs.botLeft.y = std::max(botLeft.y, r2.botLeft.y);
+  cs.topRight.x = std::min(topRight.x, r2.topRight.x);
+  cs.topRight.y = std::min(topRight.y, r2.topRight.y);
   if (cs.botLeft.x<=cs.topRight.x && cs.botLeft.y<=cs.topRight.y) {
     return cs;
   } else {
